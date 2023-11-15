@@ -105,6 +105,11 @@ public abstract class AbstractJdbcCatalog implements Catalog {
             return connectionMap.get(url);
         }
         try {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             Connection connection = DriverManager.getConnection(url, username, pwd);
             connectionMap.put(url, connection);
             return connection;
